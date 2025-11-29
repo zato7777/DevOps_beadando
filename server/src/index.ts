@@ -13,7 +13,7 @@ import { ErrorRequestHandler } from 'express';
 
 const app = express();
 const port = 5000;
-const dbUrl = "mongodb://localhost:6000/mongo_db";
+const dbUrl = process.env.DB_URL || "mongodb://localhost:6000/mongo_db";
 const sessionOptions: expressSession.SessionOptions = {
     secret: 'jegyertekesito',
     resave: false,
