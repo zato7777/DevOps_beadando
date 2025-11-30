@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    tools {
+        nodejs 'node-20' 
+    }
+
     environment {
         BACKEND_IMAGE = 'jegy-backend:latest'
         FRONTEND_IMAGE = 'jegy-frontend:latest'
