@@ -7,6 +7,10 @@ terraform {
   }
 }
 
+variable "kube_config" {
+    type = string
+}
+
 provider "kubernetes" {
-  
+    config_path = var.kube_config
 }

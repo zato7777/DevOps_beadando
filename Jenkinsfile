@@ -71,7 +71,7 @@ pipeline {
             steps {
                 dir('terraform') {
                     sh 'terraform init'
-                    sh 'terraform apply -auto-approve'
+                    sh 'terraform apply -auto-approve -var="kube_config=${KUBECONFIG}"'
                 }
             }
         }
