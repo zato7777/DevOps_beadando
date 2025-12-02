@@ -2,7 +2,8 @@ pipeline {
     agent any
 
     tools {
-        nodejs 'node-20' 
+        nodejs 'node-20'
+        terraform 'terraform'
     }
 
     environment {
@@ -10,6 +11,7 @@ pipeline {
         BACKEND_IMAGE = '${DOCKERHUB_USER}/jegy-backend:latest'
         FRONTEND_IMAGE = '${DOCKERHUB_USER}/jegy-frontend:latest'
         DOCKER_CREDENTIALS = credentials('dockerhub-login')
+        KUBECONFIG = credentials('kubeconfig')
     }
 
     stages {
@@ -62,6 +64,15 @@ pipeline {
                     }
 
                     sh 'docker logout'
+                }
+            }
+        }
+
+        stage('Deploy to Kubernetes') {
+            steps {
+                dir('terraform') {
+                    sh 'terraform init'
+                    sh 'terraform apply -auto-approve'
                 }
             }
         }
