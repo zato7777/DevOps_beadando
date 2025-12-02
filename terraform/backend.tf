@@ -1,0 +1,55 @@
+resource "kubernetes_deployment" "backend" {
+  metadata {
+    name = "backend"
+    labels = {
+      app = "backend"
+    }
+  }
+
+  spec {
+    replicas = 1
+    selector {
+      match_labels = {
+        app = "backend"
+      }
+    }
+    template {
+      metadata {
+        labels = {
+          app = "backend"
+        }
+      }
+      spec {
+        container {
+          image = "zato7777/jegy-backend:latest" 
+          name  = "backend"
+          
+          port {
+            container_port = 5000
+          }
+
+          env {
+            name  = "DB_URL"
+            value = "mongodb://mongo-service:27017/jegyertekesito"
+          }
+        }
+      }
+    }
+  }
+}
+
+resource "kubernetes_service" "backend" {
+  metadata {
+    name = "backend-service"
+  }
+  spec {
+    selector {
+      app = "backend"
+    }
+    port {
+      port        = 5000
+      target_port = 5000
+    }
+    type = "ClusterIP"
+  }
+}
