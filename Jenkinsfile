@@ -6,8 +6,10 @@ pipeline {
     }
 
     environment {
-        BACKEND_IMAGE = 'jegy-backend:latest'
-        FRONTEND_IMAGE = 'jegy-frontend:latest'
+        DOCKERHUB_USER = 'zato7777'
+        BACKEND_IMAGE = '${DOCKERHUB_USER}/jegy-backend:latest'
+        FRONTEND_IMAGE = '${DOCKERHUB_USER}/jegy-frontend:latest'
+        DOCKER_CREDENTIALS = credentials('dockerhub-login')
     }
 
     stages {
@@ -45,15 +47,21 @@ pipeline {
         stage('Build Docker Images') {
             steps {
                 script {
+                    sh "echo $DOCKER_CREDENTIALS_PASSWORD | docker login -u $DOCKER_CREDENTIALS_USR --password-stdin"
+
                     echo 'Building Backend Docker Image...'
                     dir('server') {
                         sh "docker build -t ${BACKEND_IMAGE} ."
+                        sh "docker push ${BACKEND_IMAGE}"
                     }
 
                     echo 'Building Frontend Docker Image...'
                     dir('client/jegyertekesito') {
                         sh "docker build -t ${FRONTEND_IMAGE} ."
+                        sh "docker push ${FRONTEND_IMAGE}"
                     }
+
+                    sh "docker logout"
                 }
             }
         }
