@@ -47,7 +47,7 @@ pipeline {
         stage('Build Docker Images') {
             steps {
                 script {
-                    sh "echo $DOCKER_CREDENTIALS_PASSWORD | docker login -u $DOCKER_CREDENTIALS_USR --password-stdin"
+                    sh 'echo $DOCKER_CREDENTIALS_PSW | docker login -u $DOCKER_CREDENTIALS_USR --password-stdin'
 
                     echo 'Building Backend Docker Image...'
                     dir('server') {
@@ -61,7 +61,7 @@ pipeline {
                         sh "docker push ${FRONTEND_IMAGE}"
                     }
 
-                    sh "docker logout"
+                    sh 'docker logout'
                 }
             }
         }
