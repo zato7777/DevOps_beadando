@@ -3,7 +3,6 @@ pipeline {
 
     tools {
         nodejs 'node-20'
-        terraform 'terraform'
     }
 
     environment {
