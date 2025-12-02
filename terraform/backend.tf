@@ -43,7 +43,7 @@ resource "kubernetes_service" "backend" {
     name = "backend-service"
   }
   spec {
-    selector {
+    selector = {
       app = "backend"
     }
     port {

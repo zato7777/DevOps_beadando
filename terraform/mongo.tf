@@ -37,7 +37,7 @@ resource "kubernetes_service" "mongo" {
     name = "mongo-service"
   }
   spec {
-    selector {
+    selector = {
       app = "mongo"
     }
     port {

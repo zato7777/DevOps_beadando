@@ -37,7 +37,7 @@ resource "kubernetes_service" "frontend" {
     name = "frontend-service"
   }
   spec {
-    selector {
+    selector = {
       app = "frontend"
     }
     port {
