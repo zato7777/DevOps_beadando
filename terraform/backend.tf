@@ -46,10 +46,13 @@ resource "kubernetes_service" "backend" {
     selector = {
       app = "backend"
     }
+
+    type = "NodePort"
+
     port {
       port        = 5000
       target_port = 5000
+      node_port = 30001
     }
-    type = "ClusterIP"
   }
 }
