@@ -40,10 +40,14 @@ resource "kubernetes_service" "frontend" {
     selector = {
       app = "frontend"
     }
+
+    type = "NodePort"
+
     port {
       port        = 80
       target_port = 80
+      node_port = 30000
     }
-    type = "NodePort" 
+     
   }
 }
