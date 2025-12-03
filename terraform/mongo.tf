@@ -1,3 +1,17 @@
+resource "kubernetes_pvc" "mongo_pvc" {
+  metadata {
+    name = "mongo-pvc"
+  }
+  spec {
+    access_modes = ["ReadWriteOnce"]
+    resources {
+      requests = {
+        storage = "1Gi"
+      }
+    }
+  }
+}
+
 resource "kubernetes_deployment" "mongo" {
   metadata {
     name = "mongo"
@@ -25,6 +39,18 @@ resource "kubernetes_deployment" "mongo" {
           name  = "mongo"
           port {
             container_port = 27017
+          }
+
+          volume_mount {
+            name = "mongo-storage"
+            mount_path = "/data/db"
+          }
+
+          volume {
+            name = "mongo-storage"
+            persistent_volume_claim {
+              claim_name = kubernetes_pvc.mongo_pvc.metadata.0.name
+            }
           }
         }
       }
