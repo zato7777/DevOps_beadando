@@ -1,4 +1,4 @@
-resource "kubernetes_pvc" "mongo_pvc" {
+resource "kubernetes_persistent_volume_claim" "mongo_pvc" {
   metadata {
     name = "mongo-pvc"
   }
@@ -45,14 +45,14 @@ resource "kubernetes_deployment" "mongo" {
             name = "mongo-storage"
             mount_path = "/data/db"
           }
-
-          volume {
+        }
+        
+        volume {
             name = "mongo-storage"
             persistent_volume_claim {
-              claim_name = kubernetes_pvc.mongo_pvc.metadata.0.name
+              claim_name = kubernetes_persistent_volume_claim.mongo_pvc.metadata.0.name
             }
           }
-        }
       }
     }
   }
