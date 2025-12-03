@@ -9,6 +9,6 @@ RUN npm run build
 
 FROM nginx:alpine
 
-COPY --from=build /app/dist/jegyertekesito /usr/share/nginx/html
+COPY --from=build /app/dist/jegyertekesito/ /usr/share/nginx/html
 
 EXPOSE 80
