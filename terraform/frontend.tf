@@ -44,6 +44,6 @@ resource "kubernetes_service" "frontend" {
       port        = 80
       target_port = 80
     }
-    type = "LoadBalancer" 
+    type = "NodePort" 
   }
 }
