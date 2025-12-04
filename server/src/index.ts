@@ -12,6 +12,7 @@ import { ErrorRequestHandler } from 'express';
 
 
 const app = express();
+const client = require('prom-client');
 const port = 5000;
 const dbUrl = process.env.DB_URL || "mongodb://localhost:6000/mongo_db";
 const sessionOptions: expressSession.SessionOptions = {
@@ -31,6 +32,9 @@ const corsOptions = {
     },
     credentials: true
 };
+
+const collectMetrics = client.collectMetrics;
+collectMetrics();
 
 mongoose.connect(dbUrl).then((_) => {
     console.log("Succesfully connected to mongodb!");
@@ -57,6 +61,15 @@ app.use("/app", configureRoutes(passport, express.Router()));
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
     console.error("Error:", err);
     res.status(500).send("Internal server error!");
+});
+
+app.get('/metrics', async (req, res) => {
+    try {
+        res.set('Content-Type', client.register.contentType);
+        res.end(await client.register.metrics());
+    } catch (e) {
+        res.status(500).end(e);
+    }
 });
 
 const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
