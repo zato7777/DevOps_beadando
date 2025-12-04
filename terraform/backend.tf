@@ -29,8 +29,7 @@ resource "kubernetes_deployment" "backend" {
             "until nc -z mongo-service 27017; do echo 'Várakozás a Mongora...'; sleep 2; done;"
           ]
         }
-      }
-      spec {
+        
         container {
           image = "zato7777/jegy-backend:latest" 
           name  = "backend"
