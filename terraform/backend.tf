@@ -20,6 +20,17 @@ resource "kubernetes_deployment" "backend" {
         }
       }
       spec {
+        init_container {
+          name = "wait-for-mongo"
+          image = "busybox:1.28"
+          command = [
+            "sh", 
+            "-c", 
+            "until nc -z mongo-service 27017; do echo 'Várakozás a Mongora...'; sleep 2; done;"
+          ]
+        }
+      }
+      spec {
         container {
           image = "zato7777/jegy-backend:latest" 
           name  = "backend"
