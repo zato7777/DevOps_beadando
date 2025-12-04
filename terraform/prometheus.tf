@@ -5,20 +5,20 @@ resource "kubernetes_config_map" "prometheus_config" {
 
     data = {
         "prometheus.yml" = <<EOF
-        global:
-            scrape_interval: 10s
+global:
+    scrape_interval: 10s
 
-        scrape_configs:
-            - job_name: 'prometheus'
-                static_configs:
-                    - targets: ['localhost:9090']
+scrape_configs:
+    - job_name: 'prometheus'
+        static_configs:
+            - targets: ['localhost:9090']
 
-            - job_name: 'backend-nodejs'
-                metrics_path: '/metrics'
-                static_configs:
-                    - targets: ['backend-service:5000']
+    - job_name: 'backend-nodejs'
+        metrics_path: '/metrics'
+        static_configs:
+            - targets: ['backend-service:5000']
 EOF
-  }
+    }
 }
 
 resource "kubernetes_deployment" "prometheus" {
@@ -82,5 +82,5 @@ resource "kubernetes_service" "prometheus" {
             target_port = 9090
         }
     type = "NodePort"
-  }
+    }
 }
