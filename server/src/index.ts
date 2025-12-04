@@ -33,8 +33,8 @@ const corsOptions = {
     credentials: true
 };
 
-const collectMetrics = client.collectMetrics;
-collectMetrics();
+const collectDefaultMetrics = client.collectDefaultMetrics;
+collectDefaultMetrics();
 
 mongoose.connect(dbUrl).then((_) => {
     console.log("Succesfully connected to mongodb!");
