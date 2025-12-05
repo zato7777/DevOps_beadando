@@ -77,10 +77,13 @@ resource "kubernetes_service" "prometheus" {
         selector = {
             app = "prometheus"
         }
+
+        type = "NodePort"
+
         port {
             port        = 9090
             target_port = 9090
+            node_port   = 30003
         }
-    type = "NodePort"
     }
 }
