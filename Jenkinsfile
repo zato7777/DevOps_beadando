@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    tools {
-        nodejs 'node-20'
-    }
-
     environment {
         DOCKERHUB_USER = 'zato7777'
         BACKEND_IMAGE = '${DOCKERHUB_USER}/jegy-backend:latest'
